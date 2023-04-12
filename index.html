@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="es-mx">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <title>Encriptador</title>
+</head>
+<body>
+    <header>
+        <img src="images/logoVector.png" alt="logo Alura" class="logo">
+    </header>
+    <main>
+        <div class="container-input">
+            <textarea id="input" type="text" placeholder="Ingrese el texto aqui" class="input"></textarea>
+        </div>
+        <div class="container-output" id="containerOutput">
+            <div id="result"></div>
+            <div class="container-btn-copy">
+                <button id="btnCopy" class="btn-copy">Copiar</button>
+            </div>
+        </div>
+        <div>
+            <div class="container-alert">
+                <p>
+                    Solo letras minúsculas y sin acentos
+                </p>
+            </div>
+            <div class="container-btn">
+                <button id="btnEncrypt" class="btnEncrypt">Encriptar</button>
+                <button id="btnDecrypt" class="btnDecrypt">Desencriptar</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+    var working = false;
+    var text;
+    var str = "";
+    var input = document.getElementById("input");
+    var output = document.getElementById("result");
+    var encryptButton = document.getElementById("btnEncrypt");
+    var decryptButton = document.getElementById("btnDecrypt");
+    var copyButton = document.getElementById("btnCopy");
+
+    input.oninput = checkState;
+
+    function encrypt() {
+        text = input.value.toString();
+        str = text.replaceAll(/[e]/g, "enter").replaceAll(/[i]/g, "imes").replaceAll(/[a]/g, "ai").replaceAll(/[o]/g, "ober").replaceAll(/[u]/g, "ufat");
+        working = true;
+        checkState();
+    }
+    function decrypt() {
+        text = input.value.toString();
+        str = text.replaceAll("ufat", "u").replaceAll("imes", "i").replaceAll("enter", "e").replaceAll("ober", "o").replaceAll("ai", "a");
+        working = true;
+        checkState();
+    }
+    function copy() {
+        navigator.clipboard.writeText(str);
+    }
+
+    function checkState() {
+        if (input.value.length === 0) working = false;
+
+        if (!working) {
+            output.innerHTML = "<img src = 'images/img.png' alt = 'image 1' class='image' ><p class='titulo-1' id='mensajeFinal'></p><p class='titulo-1' id='mensajeUno'>Ningún mensaje fue encontrado</p><p class='titulo-2' id='mensajeDos'>Ingresa el texto que desees encriptar o desencriptar.</p>";
+            copyButton.style.display = "none";
+        }
+        else {
+            output.innerHTML = "<p>" + str + "</p>";
+            copyButton.style.display = "block";
+        }
+    }
+
+    encryptButton.addEventListener("click", encrypt);
+    decryptButton.addEventListener("click", decrypt);
+    copyButton.addEventListener("click", copy);
+
+    checkState();
+
+</script>
